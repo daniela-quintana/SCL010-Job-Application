@@ -1,0 +1,13 @@
+.maps {
+    display: flex;
+    align-content: space-between;
+}
+
+.mapsContainer {
+    width: 3%;
+}
+
+.tableContainer {
+    width: 30%;
+    font-size: 12px;
+}
