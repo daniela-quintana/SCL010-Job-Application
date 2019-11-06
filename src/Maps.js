@@ -13,8 +13,17 @@ class Maps extends Component {
     activeMarker: {},
     selectedStore: {},
     store: [],
-    }
+    favStores: [],
+    };
+    this.handleAddFavs = this.handleAddFavs.bind(this);
   }
+
+  handleAddFavs(favStores) {
+    this.setState({
+     favStores: [...this.state.favStores, favStores]
+    })
+  }
+  
 
   onMarkerClick = (props, marker) =>
     this.setState({
@@ -30,7 +39,7 @@ class Maps extends Component {
           activeMarker: null
         })
       }
-    };
+  };
 
   displayMarkers = () => {
       return this.state.stores.map((store, index) => {
@@ -42,50 +51,45 @@ class Maps extends Component {
           lat: store.Coordinates.lat,
           lng: store.Coordinates.lng,
         }}
-     onClick={this.onMarkerClick}
+        onClick={this.onMarkerClick}
      />
     })
   }
    
-  // addToFavorites = () => {
-  //   return this.state.stores.map((store, index) => {
-  //   const favs = [];
-  //   favs.push(stores[index])
-  //   console.log(favs) 
-  //     return (
-  //       <h1> { store.Name } </h1>
-  //     )
-  //   })}
-
-   btnFavorites = () => {
-     const select = this.state.selectedStore;
+  btnFavorites = () => {
+     const select = this.state.selectedStore.name; 
      const selected = this.state.store;
      selected.push(select);
-     console.log(selected)
-  }
+     this.setState({
+      favStores: selected
+    });
+    return console.log(this.state.favStores)
+    }
 
+  removeFavs(index) {
+      if (window.confirm("¿Estás seguro de eliminar este pedido?")) {
+      this.setState({
+        favStores: this.state.favStores.filter((e, i) =>{
+          return i !== index
+        })
+      })
+    }}
+    
   render() {
     const mapStyles = {
       width: '65%',
       height: '60%',
     };
-
-    // const addFavorites = () => {
-    //   const favorites = [];
-    //   this.state.stores.map((store, index) => {
-    //   favorites.push(store[index])
-    //     return console.log(stores[index].Name)   
-    //   })}
-
     
- return (
+return (
 <div className='maps'>
   <div className='tableContainer'>
-  <h1>My Favorites Stores</h1>
+  <h1>Favorites Stores</h1>
      <div className="favNames">
       </div>
 
       <Button color='warning' onClick={ this.btnFavorites } > Guardar en favoritos</Button>
+      <p>  {this.state.favStores} </p>
 
       <Table>
       <thead>
@@ -98,23 +102,23 @@ class Maps extends Component {
       <tbody>
         <tr>
           <th scope="row">1</th>
-          <td> {this.state.selectedStore.name} </td>
-          <td> {this.state.selectedStore.title} </td> 
+          <td> {this.state.favStores} </td> 
+          {/* <td> {this.state.selectedStore.title} </td>  */}
           <button className="btn btn-danger"
-                // onClick={ this.removeTasks.bind(this, i) }
+                // onClick={ this.removeFavs.bind(this, i) }
                 > X </button>
         </tr>
       </tbody> 
     </Table>
-  </div>
+</div>
 
-  <div className="mapsContainer">
+<div className="mapsContainer">
       <Map
         google={this.props.google}
         zoom={8}
         style={mapStyles}
         initialCenter={{ lat: 19.435316, lng: -99.136017}}
-    >
+      >
         {this.displayMarkers()}
           <InfoWindow
             marker={this.state.activeMarker}
@@ -124,8 +128,8 @@ class Maps extends Component {
                 <p>{this.state.selectedStore.name}</p>
               </div>
           </InfoWindow>
-    </Map>
-</div>    
+      </Map>
+  </div>    
 </div>
  );
     }
