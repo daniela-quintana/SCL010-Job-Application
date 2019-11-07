@@ -52,10 +52,20 @@ class Maps extends Component {
           lng: store.Coordinates.lng,
         }}
         onClick={this.onMarkerClick}
-     />
-    })
-  }
-   
+        />
+      })
+    }
+
+    removeFavs(index) {
+        if (window.confirm("¿Estás seguro de eliminar este pedido?")) {
+        this.setState({
+          favStores: this.state.favStores.filter((e, i) =>{
+            return i !== index
+          })
+        })
+        return this.setState.favStores;
+      }}
+
   btnFavorites = () => {
      const select = this.state.selectedStore.name; 
      const selected = this.state.store;
@@ -66,21 +76,15 @@ class Maps extends Component {
     return console.log(this.state.favStores)
     }
 
-  removeFavs(index) {
-      if (window.confirm("¿Estás seguro de eliminar este pedido?")) {
-      this.setState({
-        favStores: this.state.favStores.filter((e, i) =>{
-          return i !== index
-        })
-      })
-    }}
     
-  render() {
-    const mapStyles = {
-      width: '65%',
-      height: '60%',
-    };
-    
+render() {
+  const mapStyles = {
+    width: '65%',
+    height: '60%',
+  };
+
+  const { favStores } =  this.state;
+  
 return (
 <div className='maps'>
   <div className='tableContainer'>
@@ -89,25 +93,22 @@ return (
       </div>
 
       <Button color='warning' onClick={ this.btnFavorites } > Guardar en favoritos</Button>
-      <p>  {this.state.favStores} </p>
 
       <Table>
       <thead>
         <tr>
-          <th>*</th>
           <th>Name</th>
-          <th>Address</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td> {this.state.favStores} </td> 
-          {/* <td> {this.state.selectedStore.title} </td>  */}
-          <button className="btn btn-danger"
-                // onClick={ this.removeFavs.bind(this, i) }
-                > X </button>
-        </tr>
+       { favStores && favStores !== undefined ? favStores.map((favStores, i) => (
+          <tr color="danger" key = { i }>
+            <button className="btnFavs" onClick={ this.state.store }>{ favStores }</button>
+            <button className="btn btn-danger"
+                  onClick={ this.removeFavs.bind(this, i) }
+                  > X </button>
+          </tr>
+        )) : null }
       </tbody> 
     </Table>
 </div>

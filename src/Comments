@@ -1,0 +1,29 @@
+  // addToFavorites = () => {
+  //   return this.state.stores.map((store, index) => {
+  //   const favs = [];
+  //   favs.push(stores[index])
+  //   console.log(favs) 
+  //     return (
+  //       <h1> { store.Name } </h1>
+  //     )
+  //   })}
+
+
+    //   displayFavs = () => {
+    //     return this.state.favStores.map((store, index) => {
+    //       <td>
+    //         key={index} 
+    //         title={store.Name}
+    //         name={store.Address}
+    //         onClick={this.btnFavorites}
+    //       </td>
+    //   })
+    // }
+
+
+    // const addFavorites = () => {
+    //   const favorites = [];
+    //   this.state.stores.map((store, index) => {
+    //   favorites.push(store[index])
+    //     return console.log(stores[index].Name)   
+    //   })}
